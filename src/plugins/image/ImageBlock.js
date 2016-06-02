@@ -6,6 +6,7 @@
 
 import Radium from "radium";
 import React, {Component} from "react";
+import ReactCrop from "react-image-crop";
 
 import {
   BlockContent,
@@ -13,9 +14,7 @@ import {
   BlockInput,
   CommonBlock
 } from "../../components/plugin";
-
 import icons from "../../icons";
-
 import ImageBlockStyle from "./ImageBlockStyle";
 
 
@@ -24,6 +23,7 @@ class ImageBlock extends Component {
   constructor(props) {
     super(props);
 
+    this._handleCrop = ::this._handleCrop;
     this._handleCaptionChange = ::this._handleCaptionChange;
     this._handleRightsHolderChange = ::this._handleRightsHolderChange;
 
@@ -34,13 +34,13 @@ class ImageBlock extends Component {
       {"key": "big", "icon": icons.MediaBigIcon, "label": "BIG"}
     ];
     this.actions = [
-      {"key": "crop", "icon": icons.CropIcon, "action": this._handleCrop},
       {"key": "edit", "icon": icons.EditIcon, "action": this._handleEdit},
       {"key": "delete", "icon": icons.DeleteIcon, "action": this.props.container.remove}
     ];
   }
 
-  _handleCrop() {
+  _handleCrop(data) {
+    this.props.container.updateEntity({crop: data});
   }
 
   _handleEdit() {
@@ -58,7 +58,12 @@ class ImageBlock extends Component {
     return (
       <CommonBlock {...this.props} featuredOptions={this.featuredOptions} actions={this.actions} defaultFeatured={this.defaultFeatured}>
         <BlockContent>
-          <img style={ImageBlockStyle.image} src={this.props.data.src} alt=""/>
+          <ReactCrop
+            crop={this.props.data.crop}
+            style={ImageBlockStyle.image}
+            src={this.props.data.src}
+            onComplete={this._handleCrop}
+            keepSelection={true} />
         </BlockContent>
 
         <BlockData>

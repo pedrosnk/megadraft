@@ -5,7 +5,9 @@
   "main": "lib/Megadraft.js",
   "dependencies": {
     "draft-js": "^0.7.0",
+    "object-assign": "^4.1.0",
     "radium": "^0.17.1",
+    "react-image-crop": "^1.0.0-rc3",
     "react-markdown": "^2.2.0",
     "react-portal": "^2.1.0"
   },
