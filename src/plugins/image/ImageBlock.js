@@ -6,6 +6,7 @@
 
 import Radium from "radium";
 import React, {Component} from "react";
+import Cropper from "react-cropper";
 
 import {
   BlockContent,
@@ -24,6 +25,8 @@ class ImageBlock extends Component {
   constructor(props) {
     super(props);
 
+    this._handleCrop = ::this._handleCrop;
+    this._handleCropEnd = ::this._handleCropEnd;
     this._handleCaptionChange = ::this._handleCaptionChange;
     this._handleRightsHolderChange = ::this._handleRightsHolderChange;
 
@@ -38,9 +41,27 @@ class ImageBlock extends Component {
       {"key": "edit", "icon": icons.EditIcon, "action": this._handleEdit},
       {"key": "delete", "icon": icons.DeleteIcon, "action": this.props.container.remove}
     ];
+
+    this.state = {
+      cropStatus: false
+    };
   }
 
-  _handleCrop() {
+  _handleCrop(data) {
+    console.log(this.state.cropStatus);
+    if (this.state.cropStatus) {
+      this.refs.cropper.disable();
+      this.setState({cropStatus: false});
+    } else {
+      this.refs.cropper.enable();
+      this.setState({cropStatus: true});
+    }
+  }
+
+  _handleCropEnd(data) {
+    console.log(data);
+    //console.log(this.refs.cropper.getCroppedCanvas().toDataURL());
+    this.props.container.updateEntity({crop: data});
   }
 
   _handleEdit() {
@@ -58,7 +79,15 @@ class ImageBlock extends Component {
     return (
       <CommonBlock {...this.props} featuredOptions={this.featuredOptions} actions={this.actions} defaultFeatured={this.defaultFeatured}>
         <BlockContent>
-          <img style={ImageBlockStyle.image} src={this.props.data.src} alt=""/>
+          <Cropper
+            ref='cropper'
+            enable={false}
+            style={ImageBlockStyle.image}
+            src={this.props.data.src}
+            aspectRatio={16 / 9}
+            guides={false}
+            zoomable={false}
+            crop={this._handleCropEnd} />
         </BlockContent>
 
         <BlockData>
