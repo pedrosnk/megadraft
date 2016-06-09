@@ -13,7 +13,7 @@ import BlockInput from "./plugin/BlockInput";
 import BlockWrapper from "./plugin/BlockWrapper";
 import CommonBlock from "./plugin/CommonBlock";
 
-export {
+export default {
   BlockAction,
   BlockActionGroup,
   BlockContent,

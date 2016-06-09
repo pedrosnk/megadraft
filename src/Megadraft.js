@@ -13,6 +13,7 @@ import Toolbar from "./components/Toolbar";
 import Sidebar from "./components/Sidebar";
 import Media from "./components/Media";
 import MegadraftStyles from "./styles/MegadraftStyles";
+import plugin from "./components/plugin"
 import DEFAULT_PLUGINS from "./plugins/default";
 
 
@@ -118,3 +119,5 @@ class Megadraft extends Component {
 }
 
 export const DraftJS = Draft;
+export const MegadraftIcons = icons;
+export const MegadraftPlugin = plugin;
